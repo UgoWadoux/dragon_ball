@@ -5,6 +5,8 @@ from patterns.observer import WarriorObserver
 from patterns.state import NormalState, SuperSaiyanState
 from models.training import Training
 import pygame
+import  sys
+
 
 manager = WarriorManager()
 # Initialize Pygame
@@ -77,39 +79,97 @@ def main():
     warriors = []
 
     while True:
-        print("Menu \n"
-              "1. Create a Warrior \n"
-              "2. Train a Warrior \n"
-              "3. Start a Fight \n"
-              "4. Start a Tournament \n"
-              "5. List Warriors \n"
-              "6. Exit \n")
-        choice = input("Enter your choice :\n ")
+        screen.fill(WHITE)
+        menu_text = font.render("Menu:", True, BLACK)
+        screen.blit(menu_text, (50, 50))
 
-        if choice == '1' :
-            warrior = create_warrior()
-            warriors.append(warrior)
-        elif choice == '2':
-            warrior = choose_warrior(warriors)
-            start_training(warrior)
-            continue
-        elif choice == '3':
-            if not warriors:
-                print("No warriors created. Please create one an try again")
-                continue
-            opponent = create_opponent()
-            warrior = choose_warrior(warriors)
-            start_fight(warrior, opponent)
-        elif choice == '4':
-            return
-        elif choice == '5':
-            for warrior in warriors:
-                i = 0
-                print(f"{i}. {warrior.name}")
-                i += 1
-            continue
-        elif choice == '6':
-            return
+        option1_text = font.render("1. Create a warrior", True, BLACK)
+        screen.blit(option1_text, (50, 100))
+
+        option2_text = font.render("2. Train a warrior", True, BLACK)
+        screen.blit(option2_text, (50, 150))
+
+        option3_text = font.render("3. Start a combat", True, BLACK)
+        screen.blit(option3_text, (50, 200))
+
+        option4_text = font.render("4. Start a tournament", True, BLACK)
+        screen.blit(option4_text, (50, 250))
+
+        option5_text = font.render("5. Exit", True, BLACK)
+        screen.blit(option5_text, (50, 300))
+
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    warrior = create_warrior()
+                    warriors.append(warrior)
+                elif event.key == pygame.K_2:
+                    if not warriors:
+                        print("No warriors created yet.")
+                        continue
+                    warrior = choose_warrior(warriors)
+                    if warrior:
+                        start_training(warrior)
+                    else:
+                        print("Warrior not found.")
+                elif event.key == pygame.K_3:
+                    if not warriors:
+                        print("No warriors created. Please create one an try again")
+                        continue
+                    opponent = create_opponent()
+                    warrior = choose_warrior(warriors)
+                    start_fight(warrior, opponent)
+                elif event.key == pygame.K_4:
+                        print("Not enough warriors to start a tournament.")
+                        continue
+                elif event.key == pygame.K_5:
+                    for warrior in warriors:
+                        i = 0
+                        print(f"{i}. {warrior.name}")
+                        i += 1
+                    continue
+                elif event.key == pygame.K_6:
+                    pygame.quit()
+                    sys.exit()
+                else:
+                    print("Invalid choice. Please try again.")
+        # print("Menu \n"
+        #       "1. Create a Warrior \n"
+        #       "2. Train a Warrior \n"
+        #       "3. Start a Fight \n"
+        #       "4. Start a Tournament \n"
+        #       "5. List Warriors \n"
+        #       "6. Exit \n")
+        # choice = input("Enter your choice :\n ")
+        #
+        # if choice == '1' :
+        #     warrior = create_warrior()
+        #     warriors.append(warrior)
+        # elif choice == '2':
+        #     warrior = choose_warrior(warriors)
+        #     start_training(warrior)
+        #     continue
+        # elif choice == '3':
+        #     if not warriors:
+        #         print("No warriors created. Please create one an try again")
+        #         continue
+        #     opponent = create_opponent()
+        #     warrior = choose_warrior(warriors)
+        #     start_fight(warrior, opponent)
+        # elif choice == '4':
+        #     return
+        # elif choice == '5':
+        #     for warrior in warriors:
+        #         i = 0
+        #         print(f"{i}. {warrior.name}")
+        #         i += 1
+        #     continue
+        # elif choice == '6':
+        #     return
 
 
 
