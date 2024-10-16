@@ -3,6 +3,7 @@ from patterns.state import NormalState
 class Warrior:
     def __init__(self, name):
         self.name = name
+        self.strength = 1
         self.state = NormalState()
         self.techniques = []
         self.transformations = []
@@ -23,3 +24,7 @@ class Warrior:
     def notify(self, event):
         for observer in self.observers:
             observer.update(event)
+
+    def increase_strength(self, warrior, amount):
+        warrior.strength =+ amount
+        self.notify(f"{self.name}'s strength increase to {self.strength}")
