@@ -3,10 +3,26 @@ from models.fight import Fight
 from patterns.singleton import WarriorManager
 from patterns.observer import WarriorObserver
 from patterns.state import NormalState, SuperSaiyanState
+from models.training import Training
+import pygame
 
 manager = WarriorManager()
+# Initialize Pygame
+pygame.init()
 
+# Screen dimensions
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Dragon Ball Management")
+
+# Fonts
+font = pygame.font.Font(None, 36)
 def create_warrior():
     # Get user input for creating warriors
     name = input("Enter the first warrior's name: ")
@@ -42,8 +58,20 @@ def create_opponent():
 
 def start_fight(warrior, opponent):
     combat = Fight(warrior, opponent)
-    combat.start_combat()
+    combat.start_fight()
 
+def start_training(warrior):
+    training = Training(warrior)
+    training.train()
+
+def choose_warrior(warriors):
+    for warrior in warriors:
+        i = 0
+        print(f"{i}. {warrior.name}")
+        i += 1
+    warrior_number = input("Select a warrior Please :\n ")
+    warrior_number = int(warrior_number)
+    return warriors[warrior_number]
 
 def main():
     warriors = []
@@ -62,19 +90,15 @@ def main():
             warrior = create_warrior()
             warriors.append(warrior)
         elif choice == '2':
-            return
+            warrior = choose_warrior(warriors)
+            start_training(warrior)
+            continue
         elif choice == '3':
             if not warriors:
                 print("No warriors created. Please create one an try again")
                 continue
             opponent = create_opponent()
-            for warrior in warriors:
-                i = 0
-                print(f"{i}. {warrior.name}")
-                i += 1
-            warrior_number = input("Select a warrior Please :\n ")
-            warrior_number = int(warrior_number)
-            warrior = warriors[warrior_number]
+            warrior = choose_warrior(warriors)
             start_fight(warrior, opponent)
         elif choice == '4':
             return

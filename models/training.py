@@ -21,3 +21,5 @@ class Training:
         self.attach_observer(observer)
         print(f"{self.warrior.name} is training")
         self.warrior.increase_strength(self.warrior, 5)
+        self.notify_observers(f"{self.warrior.name} completed training.")
+        self.detach_observer(observer)

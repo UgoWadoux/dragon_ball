@@ -34,7 +34,7 @@ class Fight:
         defender.change_state(NormalState())
         self.notify_observers(f"{defender.name} defended")
 
-    def start_combat(self):
+    def start_fight(self):
         # Exemple de séquence de combat
         observer = WarriorObserver()
         self.attach_observer(observer)
