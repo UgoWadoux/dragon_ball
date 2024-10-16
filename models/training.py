@@ -20,6 +20,7 @@ class Training:
         observer = WarriorObserver()
         self.attach_observer(observer)
         print(f"{self.warrior.name} is training")
-        self.warrior.increase_strength(self.warrior, 5)
+        self.warrior.increase_strength(5)
+        self.warrior.gain_experience(50)
         self.notify_observers(f"{self.warrior.name} completed training.")
         self.detach_observer(observer)
