@@ -10,7 +10,7 @@ class Form:
         :param functions: A list of functions to execute corresponding to the choices.
         """
         # Print the title
-        print(title)
+        print(f"\n{title}")
 
         # Print the choices
         for index, choice in enumerate(choices, start=1):
@@ -26,8 +26,8 @@ class Form:
                 return functions[user_input - 1]()
             else:
                 print("Choix invalide, veuillez réessayer.")
-                FORM.display(title, choices, functions)  # Re-display the form if the input is invalid
+                Form.display(title, choices, functions)  # Re-display the form if the input is invalid
 
         except ValueError:
             print("Veuillez entrer un numéro valide.")
-            FORM.display(title, choices, functions)  # Re-display the form in case
+            Form.display(title, choices, functions)  # Re-display the form in case

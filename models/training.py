@@ -1,5 +1,7 @@
+from models.item import Sushi
 from patterns.observer import WarriorObserver
-from patterns.decorator import SenzuBeanDecorator
+from patterns.decorator import SushiDecorator
+
 
 class Training:
     def __init__(self, warrior):
@@ -22,6 +24,6 @@ class Training:
         print(f"{self.warrior.name} is training")
         self.warrior.increase_strength(5)
         self.warrior.gain_experience(50)
-        SenzuBeanDecorator(self.warrior)
+        SushiDecorator(self.warrior)
         self.notify_observers(f"{self.warrior.name} completed training.")
         self.detach_observer(observer)

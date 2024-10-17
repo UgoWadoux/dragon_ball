@@ -1,4 +1,6 @@
 import os
+
+from models.item import SenzuBean
 from models.technique import Kamehameha, FinalFlash, SpecialBeamCanon
 from patterns.builder import WarriorBuilder
 from models.fight import Fight
@@ -6,6 +8,7 @@ from patterns.singleton import WarriorManager
 from patterns.observer import WarriorObserver
 from models.training import Training
 from models.form import Form
+from patterns.decorator import SenzuBeanDecorator, SushiDecorator
 
 manager = WarriorManager()
 
@@ -16,38 +19,65 @@ def clear_screen():
 
 def print_menu():
     clear_screen()
+    print("========================================")
+    print("|   Welcome to the Dragon Ball Game    |")
     print("=" * 40)
-    print("Welcome to the Dragon Ball Game")
-    print("=" * 40)
-    print("Menu")
-    print("1. Create a Warrior")
-    print("2. Train a Warrior")
-    print("3. Start a Fight")
-    print("4. Start a Tournament")
-    print("5. List Warriors")
-    print("6. Exit")
+    print("""|                                      |
+|       ⠀⠀⠀⠀⠀⢀⣀⣤⣴⣶⣶⣶⣶⣆⢰⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀      |
+|   ⠀⠀⠀⠀⠀⢀⣠⣶⣿⣿⣿⣿⣿⡿⢿⣿⣿⠀⣿⣿⣿⣿⣶⣄⡀⠀⠀⠀⠀⠀     |
+|   ⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⠃⠀⣿⠿⠛⠀⠻⢿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀     |
+|   ⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠃⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀     |
+|   ⠀⢠⣿⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⢛⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀     |
+|   ⠀⣾⣿⣿⣿⣿⣿⠿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢹⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀     |
+|   ⢸⣿⣿⣿⣿⣛⡉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⡆⢠⡈⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇     |
+|   ⢸⣿⣿⣿⣿⣟⣉⣁⠀⠀⠀⠀⠀⠀⠀⠀⣻⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇     |
+|   ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠇⠀⠀⣠⣴⣿⣿⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇     |
+|   ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠙⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇     |
+|   ⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠈⠁⠀⢨⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀     |
+|   ⠀⠈⢿⣿⣿⣿⣿⣿⠿⢿⣿⡇⠀⠀⠀⠀⠀⣤⠀⢸⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀     |
+|   ⠀⠀⠈⢿⣿⣿⣿⠁⣴⣾⡿⠁⠀⠀⠀⠀⠀⠘⡇⢸⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀     |
+|   ⠀⠀⠀⠀⠙⢿⣿⡀⠿⣿⡧⠀⠀⠀⠀⠀⠀⢠⡄⢸⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀     |
+|   ⠀⠀⠀⠀⠀⠀⠙⠻⢶⣤⣤⣾⠀⠀⠀⠀⢠⣼⡇⢸⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀     |
+|   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠃⠀⠀⠀⠠⠿⠟⠃⠈⠉⠀⠀⠀⠀⠀⠀     ⠀⠀⠀|""")
+    print("========================================")
+    print("|                MENU                  |")
+    print("========================================")
+    print("|       1. Create a Warrior            |")
+    print("|       2. Train a Warrior             |")
+    print("|       3. Start a Fight               |")
+    print("|       4. Start a Tournament          |")
+    print("|       5. List Warriors               |")
+    print("|       6. Exit                        |")
     print("=" * 40)
 
 
 def choose_technique():
     while True:
-        # choice_technique = input(
-        #     "Enter the first warrior's technique (Kamehameha, Final Flash, Special Beam Cannon): ").strip()
         form = Form()
-        return form.display(title="Create warrior", choices=["kamehameha",
-                                                             "final flash",
-                                                             "special beam canon"], functions=[lambda: Kamehameha(),
-                                                                                               lambda: FinalFlash(),
-                                                                                               lambda: SpecialBeamCanon()])
-        # if choice_technique.lower() == "kamehameha":
-        #     return Kamehameha()
-        # elif choice_technique.lower() == "final flash":
-        #     return FinalFlash()
-        # elif choice_technique.lower() == "special beam cannon":
-        #     return SpecialBeamCanon()
-        # else:
-        #     print("Invalid choice. Please try again.")
-        #     input("Press Enter to continue...")
+        return form.display(title="Choose technique", choices=["kamehameha",
+                                                               "final flash",
+                                                               "special beam canon"], functions=[lambda: Kamehameha(),
+                                                                                                 lambda: FinalFlash(),
+                                                                                                 lambda: SpecialBeamCanon()])
+
+
+def choose_item(warrior):
+    while True:
+        form = Form()
+        return form.display(title="Choose first item", choices=["senzu bean",
+                                                                "sushi"],
+                            functions=[lambda: SenzuBeanDecorator(warrior),
+                                       lambda: SushiDecorator(warrior)])
+
+
+def choose_warrior_type():
+    while True:
+        form = Form()
+        return form.display(title="Choose type", choices=["Saiyan",
+                                                          "Namekian",
+                                                          "Android"], functions=[lambda: "Saiyan",
+                                                                                 lambda: "Namekian",
+                                                                                 lambda: "Android"])
 
 
 def create_warrior():
@@ -56,17 +86,15 @@ def create_warrior():
     print("Create a Warrior")
     print("=" * 40)
     name = input("Enter the first warrior's name: ")
-    warrior_type = input("Enter the first warrior's type (Saiyan, Namekian, Android): ")
+    warrior_type = choose_warrior_type()
     technique = choose_technique()
     transformation = input("Enter the first warrior's transformation: ")
-    item = input("Enter the first warrior's item: ")
 
     warrior = WarriorBuilder(warrior_type, name) \
         .add_technique(technique) \
         .add_transformation(transformation) \
-        .add_item(item) \
         .build()
-
+    choose_item(warrior)
     observer1 = WarriorObserver()
     warrior.attach(observer1)
     manager.add_warrior(warrior)
@@ -77,8 +105,8 @@ def create_opponent():
     opponent = WarriorBuilder("Android", "Mechant") \
         .add_technique(SpecialBeamCanon()) \
         .add_transformation("transformation") \
-        .add_item("item") \
         .build()
+    SushiDecorator(opponent)
     observer2 = WarriorObserver()
     opponent.attach(observer2)
     manager.add_warrior(opponent)
@@ -89,8 +117,8 @@ def create_goku():
     goku = WarriorBuilder("Saiyan", "Goku") \
         .add_technique(Kamehameha()) \
         .add_transformation("") \
-        .add_item("") \
         .build()
+    SenzuBeanDecorator(goku)
     observer = WarriorObserver()
     goku.attach(observer)
     manager.add_warrior(goku)
@@ -124,7 +152,6 @@ def list_warriors(warriors):
     print("List of Warriors")
     print("=" * 40)
     for i, warrior in enumerate(warriors):
-
         print(f"{i}. \n")
         warrior_display(warrior)
 
@@ -142,10 +169,9 @@ def warrior_display(warrior):
 
 
 def main():
-    warriors = []
     opponent = create_opponent()
-    goku = create_goku()
-    warriors.append(goku)
+    create_goku()
+    warriors = manager.list_warriors()
     while True:
         print_menu()
         choice = input("Enter your choice: ")

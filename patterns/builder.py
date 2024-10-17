@@ -13,9 +13,9 @@ class WarriorBuilder:
         self.warrior.transformations.append(transformation)
         return self
 
-    def add_item(self, item):
-        self.warrior.items.append(item)
-        return self
+    # def add_item(self, item):
+    #     self.warrior.items.append(item)
+    #     return self
 
     def build(self):
         return self.warrior

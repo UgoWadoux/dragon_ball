@@ -1,3 +1,5 @@
+from models.form import Form
+
 class Attacker:
     def __init__(self, techniques):
         self.techniques = techniques
@@ -10,9 +12,12 @@ class Attacker:
         print(f"Available techniques: {', '.join(technique_names)}")
 
         while True:
+
             technique_choice = input("Choose a technique to use: ")
-            for technique in self.techniques:
-                if technique_choice == technique.name:
-                    return technique
-            else:
-                print("Invalid choice. Please choose a valid technique.")
+            form = Form()
+            return form.display(title="Choose technique", choices=self.get_techniques(), functions=[lambda: technique for technique in self.techniques])
+            # for technique in self.techniques:
+            #     if technique_choice == technique.name:
+            #         return technique
+            # else:
+            #     print("Invalid choice. Please choose a valid technique.")

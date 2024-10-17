@@ -10,7 +10,7 @@ class Warrior:
         self.state = NormalState()
         self.techniques = [Punch(), Kick()]
         self.transformations = []
-        self.items = []
+        self.items = {}
         self.observers = []
         self.hp = 100
         self.max_hp = 100
@@ -23,6 +23,17 @@ class Warrior:
 
     def get_techniques(self):
         return self.techniques
+
+    def use_item(self, item_name):
+        if item_name in self.items and self.items[item_name] > 0:
+            item = next((i for i in self.items if i.name == item_name), None)
+            if item:
+                item.use(self)
+                self.items[item_name] -= 1
+                if self.items[item_name] == 0:
+                    del self.items[item_name]
+        else:
+            print(f"{self.name} does not have the item {item_name}.")
 
     def change_state(self, state):
         self.state = state
@@ -43,11 +54,11 @@ class Warrior:
             observer.update(event)
 
     def increase_strength(self, amount):
-        self.strength = + amount
+        self.strength += amount
         self.notify(f"{self.name}'s strength increase to {self.strength}")
 
     def gain_experience(self, amount):
-        self.experience = + amount
+        self.experience += amount
         self.notify(f"{self.name} gained {amount} experience")
         if self.experience >= self.experience_to_next_level:
             self.level_up()
@@ -85,3 +96,10 @@ class Warrior:
     def increase_max_hp(self, amount):
         self.max_hp += amount
         self.notify(f"{self.name} increased max HP to {self.max_hp}")
+
+    def add_item(self, item, quantity=1):
+        if item.name in self.items:
+            self.items[item.name] += quantity
+        else:
+            self.items[item.name] = quantity
+        print(f"{self.name} adds {quantity} {item.name}(s) to inventory.")

@@ -1,3 +1,5 @@
+from models.item import SenzuBean, Sushi
+
 class WarriorDecorator:
     def __init__(self, warrior):
         self.warrior = warrior
@@ -5,8 +7,15 @@ class WarriorDecorator:
     def add_transformation(self, transformation):
         self.warrior.transformations.append(transformation)
 
-    def add_item(self, item):
-        self.warrior.items.append(item)
+    def add_item(self, item, quantity):
+        self.warrior.add_item(item, quantity)
+
+    def use_item(self, item_name):
+        for item in self.warrior.items:
+            if item.name == item_name:
+                item.use(self.warrior)
+                return
+        print(f"{self.warrior.name} does not have the item {item_name}.")
 
 
 class SuperSaiyanDecorator(WarriorDecorator):
@@ -15,13 +24,13 @@ class SuperSaiyanDecorator(WarriorDecorator):
         self.add_transformation("Super Saiyan")
 
 
-        self.add_item("Item")
 class SenzuBeanDecorator(WarriorDecorator):
     def __init__(self, warrior):
         super().__init__(warrior)
-        self.add_item("Senzu Bean")
+        self.add_item(SenzuBean(), 1)
+
 
 class SushiDecorator(WarriorDecorator):
     def __init__(self, warrior):
         super().__init__(warrior)
-        self.add_item("Sushi")
+        self.add_item(Sushi(), 1)
