@@ -6,17 +6,18 @@ from patterns.singleton import WarriorManager
 from patterns.observer import WarriorObserver
 from models.training import Training
 
-
 manager = WarriorManager()
+
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
 def print_menu():
     clear_screen()
-    print("="*40)
+    print("=" * 40)
     print("Welcome to the Dragon Ball Game")
-    print("="*40)
+    print("=" * 40)
     print("Menu")
     print("1. Create a Warrior")
     print("2. Train a Warrior")
@@ -24,7 +25,8 @@ def print_menu():
     print("4. Start a Tournament")
     print("5. List Warriors")
     print("6. Exit")
-    print("="*40)
+    print("=" * 40)
+
 
 def choose_technique():
     while True:
@@ -40,11 +42,12 @@ def choose_technique():
             print("Invalid choice. Please try again.")
             input("Press Enter to continue...")
 
+
 def create_warrior():
     clear_screen()
-    print("="*40)
+    print("=" * 40)
     print("Create a Warrior")
-    print("="*40)
+    print("=" * 40)
     name = input("Enter the first warrior's name: ")
     warrior_type = input("Enter the first warrior's type (Saiyan, Namekian, Android): ")
     technique = choose_technique()
@@ -62,6 +65,7 @@ def create_warrior():
     manager.add_warrior(warrior)
     return warrior
 
+
 def create_opponent():
     opponent = WarriorBuilder("Android", "Mechant") \
         .add_technique("Kamehameha") \
@@ -73,32 +77,37 @@ def create_opponent():
     manager.add_warrior(opponent)
     return opponent
 
+
 def start_fight(warrior, opponent):
     combat = Fight(warrior, opponent)
     combat.start_fight()
+
 
 def start_training(warrior):
     training = Training(warrior)
     training.train()
 
+
 def choose_warrior(warriors):
     clear_screen()
-    print("="*40)
+    print("=" * 40)
     print("Choose a Warrior")
-    print("="*40)
+    print("=" * 40)
     for i, warrior in enumerate(warriors):
         print(f"{i}. {warrior.name}")
     warrior_number = int(input("Select a warrior Please: "))
     return warriors[warrior_number]
 
+
 def list_warriors(warriors):
     clear_screen()
-    print("="*40)
+    print("=" * 40)
     print("List of Warriors")
-    print("="*40)
+    print("=" * 40)
     for i, warrior in enumerate(warriors):
         print(f"{i}. \n")
         warrior_display(warrior)
+
 
 def warrior_display(warrior):
     print(f"Name : {warrior.name} \n"
@@ -110,6 +119,7 @@ def warrior_display(warrior):
           f"Techniques : {warrior.techniques} \n"
           f"Transformations : {warrior.transformations} \n"
           f"State : {warrior.state.__class__.__name__} \n")
+
 
 def main():
     warriors = []
@@ -151,6 +161,7 @@ def main():
         else:
             print("Invalid choice. Please try again.")
             input("Press Enter to continue...")
+
 
 if __name__ == "__main__":
     main()

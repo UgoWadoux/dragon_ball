@@ -1,5 +1,6 @@
 from models.warrior import Warrior
 
+
 class WarriorFactory:
     def create_warrior(self, warrior_type, name):
         if warrior_type == 'Saiyan':
@@ -10,4 +11,3 @@ class WarriorFactory:
             return Warrior(name)
         else:
             raise ValueError("Unknown warrior type")
-

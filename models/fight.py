@@ -2,6 +2,8 @@ from patterns.state import NormalState, SuperSaiyanState, BlessedState, Exhauste
 from patterns.observer import WarriorObserver
 from models.attaquer import Attacker
 from patterns.state import Dead
+
+
 class Fight:
     def __init__(self, warrior1, warrior2):
         self.warrior1 = warrior1
@@ -23,6 +25,12 @@ class Fight:
         print(f"{attacker.name} attacks {defender.name}")
         technique = Attacker(attacker.get_techniques()).choose_technique()
         defender.take_damages(technique)
+        self.notify_observers(f"{attacker.name} attacked {defender.name}")
+        input("Press Enter to continue...")
+
+    def pnj_attack(self, attacker, defender):
+        print(f"{attacker.name} attacks {defender.name}")
+
         self.notify_observers(f"{attacker.name} attacked {defender.name}")
         input("Press Enter to continue...")
 

@@ -1,4 +1,6 @@
 from patterns.factory import WarriorFactory
+
+
 class WarriorBuilder:
     def __init__(self, warrior_type, name):
         self.warrior = WarriorFactory().create_warrior(warrior_type, name)

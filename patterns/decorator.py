@@ -8,10 +8,12 @@ class WarriorDecorator:
     def add_item(self, item):
         self.warrior.items.append(item)
 
+
 class SuperSaiyanDecorator(WarriorDecorator):
     def __init__(self, warrior):
         super().__init__(warrior)
         self.add_transformation("Super Saiyan")
+
 
 class SenzuBeanDecorator(WarriorDecorator):
     def __init__(self, warrior):

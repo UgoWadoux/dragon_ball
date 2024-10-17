@@ -1,5 +1,6 @@
 from patterns.state import NormalState, Dead
 from models.technique import Kick, Punch
+import random
 
 
 class Warrior:
@@ -41,11 +42,11 @@ class Warrior:
             observer.update(event)
 
     def increase_strength(self, amount):
-        self.strength =+ amount
+        self.strength = + amount
         self.notify(f"{self.name}'s strength increase to {self.strength}")
 
     def gain_experience(self, amount):
-        self.experience =+ amount
+        self.experience = + amount
         self.notify(f"{self.name} gained {amount} experience")
         if self.experience >= self.experience_to_next_level:
             self.level_up()
@@ -66,3 +67,6 @@ class Warrior:
             self.change_state(Dead())
             self.notify(f"{self.name} died")
             return
+
+    def random_technique(self):
+        return random.choice(self.techniques)
