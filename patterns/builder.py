@@ -4,7 +4,7 @@ class WarriorBuilder:
         self.warrior = WarriorFactory().create_warrior(warrior_type, name)
 
     def add_technique(self, technique):
-        self.warrior.techniques.append(technique)
+        self.warrior.add_technique(technique)
         return self
 
     def add_transformation(self, transformation):

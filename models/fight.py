@@ -1,6 +1,7 @@
 from patterns.state import NormalState, SuperSaiyanState, BlessedState, ExhaustedState
 from patterns.observer import WarriorObserver
-
+from models.attaquer import Attacker
+from patterns.state import Dead
 class Fight:
     def __init__(self, warrior1, warrior2):
         self.warrior1 = warrior1
@@ -20,8 +21,10 @@ class Fight:
     def attack(self, attacker, defender):
         # Logique d'attaque
         print(f"{attacker.name} attacks {defender.name}")
-        defender.change_state(BlessedState())
+        technique = Attacker(attacker.get_techniques()).choose_technique()
+        defender.take_damages(technique)
         self.notify_observers(f"{attacker.name} attacked {defender.name}")
+        input("Press Enter to continue...")
 
     def use_special_technique(self, warrior, technique):
         # Logique d'utilisation de technique spéciale
@@ -37,8 +40,7 @@ class Fight:
     def start_fight(self):
         # Exemple de séquence de combat
         observer = WarriorObserver()
-        self.attach_observer(observer)
-        self.attack(self.warrior1, self.warrior2)
-        self.use_special_technique(self.warrior1, "Kamehameha")
-        self.defend(self.warrior2)
-        self.detach_observer(observer)
+        while not self.warrior2.state.is_instance(Dead) or not self.warrior1.state.is_instance(Dead):
+            self.attach_observer(observer)
+            self.attack(self.warrior1, self.warrior2)
+            self.detach_observer(observer)

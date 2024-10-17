@@ -10,6 +10,9 @@ class WarriorManager:
     def add_warrior(self, warrior):
         self.warriors.append(warrior)
 
+    def list_warriors(self):
+        return self.warriors
+
     def get_warrior(self, name):
         for warrior in self.warriors:
             if warrior.name == name:

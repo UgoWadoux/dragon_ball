@@ -1,11 +1,13 @@
-from patterns.state import NormalState
+from patterns.state import NormalState, Dead
+from models.technique import Kick, Punch
+
 
 class Warrior:
     def __init__(self, name):
         self.name = name
         self.strength = 1
         self.state = NormalState()
-        self.techniques = []
+        self.techniques = [Punch(), Kick()]
         self.transformations = []
         self.items = []
         self.observers = []
@@ -14,10 +16,19 @@ class Warrior:
         self.experience = 0
         self.experience_to_next_level = 100
 
+    def add_technique(self, technique):
+        self.techniques.append(technique)
+
+    def get_techniques(self):
+        return self.techniques
+
     def change_state(self, state):
         self.state = state
         self.state.handle(self)
         self.notify(f"{self.name} changed state to {state.__class__.__name__}")
+
+    def get_state(self):
+        return self.state
 
     def attach(self, observer):
         self.observers.append(observer)
@@ -46,11 +57,12 @@ class Warrior:
         self.increase_strength(5)
         self.notify(f"{self.name} level up to {self.level}")
 
-    def take_damages(self, damages):
-        self.hp -= damages
-        self.notify(f"{self.name} took {damages} points of damage \n "
+    def take_damages(self, technique):
+        self.hp -= technique.damage
+        self.notify(f"{self.name} took {technique.damage} points of damages \n "
                     f"HP : {self.hp} \n ")
         if self.hp <= 0:
             self.hp = 0
+            self.change_state(Dead())
             self.notify(f"{self.name} died")
             return

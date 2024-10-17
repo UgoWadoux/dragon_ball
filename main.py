@@ -1,11 +1,11 @@
-import time
 import os
+from models.technique import Kamehameha, FinalFlash, SpecialBeamCanon
 from patterns.builder import WarriorBuilder
 from models.fight import Fight
 from patterns.singleton import WarriorManager
 from patterns.observer import WarriorObserver
-from patterns.state import NormalState, SuperSaiyanState
 from models.training import Training
+
 
 manager = WarriorManager()
 
@@ -26,6 +26,20 @@ def print_menu():
     print("6. Exit")
     print("="*40)
 
+def choose_technique():
+    while True:
+        choice_technique = input(
+            "Enter the first warrior's technique (Kamehameha, Final Flash, Special Beam Cannon): ").strip()
+        if choice_technique.lower() == "kamehameha":
+            return Kamehameha()
+        elif choice_technique.lower() == "final flash":
+            return FinalFlash()
+        elif choice_technique.lower() == "special beam cannon":
+            return SpecialBeamCanon()
+        else:
+            print("Invalid choice. Please try again.")
+            input("Press Enter to continue...")
+
 def create_warrior():
     clear_screen()
     print("="*40)
@@ -33,7 +47,7 @@ def create_warrior():
     print("="*40)
     name = input("Enter the first warrior's name: ")
     warrior_type = input("Enter the first warrior's type (Saiyan, Namekian, Android): ")
-    technique = input("Enter the first warrior's technique (Kamehameha, Final Flash, Special Beam Cannon): ")
+    technique = choose_technique()
     transformation = input("Enter the first warrior's transformation: ")
     item = input("Enter the first warrior's item: ")
 

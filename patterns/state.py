@@ -1,6 +1,8 @@
 class WarriorState:
     def handle(self, warrior):
         pass
+    def is_instance(self, warrior_state):
+        return isinstance(self, warrior_state)
 
 class NormalState(WarriorState):
     def handle(self, warrior):
@@ -17,3 +19,7 @@ class BlessedState(WarriorState):
 class ExhaustedState(WarriorState):
     def handle(self, warrior):
         print(f"{warrior.name} is in Exhausted state")
+
+class Dead(WarriorState):
+    def handle(self, warrior):
+        print(f"{warrior.name} is dead")
