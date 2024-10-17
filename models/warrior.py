@@ -13,6 +13,7 @@ class Warrior:
         self.items = []
         self.observers = []
         self.hp = 100
+        self.max_hp = 100
         self.level = 1
         self.experience = 0
         self.experience_to_next_level = 100
@@ -56,6 +57,8 @@ class Warrior:
         self.level += 1
         self.experience_to_next_level *= 2
         self.increase_strength(5)
+        self.increase_max_hp(10)
+        self.hp = self.max_hp
         self.notify(f"{self.name} level up to {self.level}")
 
     def take_damages(self, technique):
@@ -70,3 +73,15 @@ class Warrior:
 
     def random_technique(self):
         return random.choice(self.techniques)
+
+    def heal(self, amount):
+        self.hp += amount
+        self.notify(f"{self.name} healed {amount} points of HP")
+        if self.hp >= self.max_hp:
+            self.hp = self.max_hp
+            self.change_state(NormalState())
+            self.notify(f"{self.name} is now in Normal state")
+
+    def increase_max_hp(self, amount):
+        self.max_hp += amount
+        self.notify(f"{self.name} increased max HP to {self.max_hp}")

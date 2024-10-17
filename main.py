@@ -5,6 +5,7 @@ from models.fight import Fight
 from patterns.singleton import WarriorManager
 from patterns.observer import WarriorObserver
 from models.training import Training
+from models.form import Form
 
 manager = WarriorManager()
 
@@ -30,17 +31,23 @@ def print_menu():
 
 def choose_technique():
     while True:
-        choice_technique = input(
-            "Enter the first warrior's technique (Kamehameha, Final Flash, Special Beam Cannon): ").strip()
-        if choice_technique.lower() == "kamehameha":
-            return Kamehameha()
-        elif choice_technique.lower() == "final flash":
-            return FinalFlash()
-        elif choice_technique.lower() == "special beam cannon":
-            return SpecialBeamCanon()
-        else:
-            print("Invalid choice. Please try again.")
-            input("Press Enter to continue...")
+        # choice_technique = input(
+        #     "Enter the first warrior's technique (Kamehameha, Final Flash, Special Beam Cannon): ").strip()
+        form = Form()
+        return form.display(title="Create warrior", choices=["kamehameha",
+                                                             "final flash",
+                                                             "special beam canon"], functions=[lambda: Kamehameha(),
+                                                                                               lambda: FinalFlash(),
+                                                                                               lambda: SpecialBeamCanon()])
+        # if choice_technique.lower() == "kamehameha":
+        #     return Kamehameha()
+        # elif choice_technique.lower() == "final flash":
+        #     return FinalFlash()
+        # elif choice_technique.lower() == "special beam cannon":
+        #     return SpecialBeamCanon()
+        # else:
+        #     print("Invalid choice. Please try again.")
+        #     input("Press Enter to continue...")
 
 
 def create_warrior():
@@ -68,7 +75,7 @@ def create_warrior():
 
 def create_opponent():
     opponent = WarriorBuilder("Android", "Mechant") \
-        .add_technique("Kamehameha") \
+        .add_technique(SpecialBeamCanon()) \
         .add_transformation("transformation") \
         .add_item("item") \
         .build()
@@ -76,6 +83,18 @@ def create_opponent():
     opponent.attach(observer2)
     manager.add_warrior(opponent)
     return opponent
+
+
+def create_goku():
+    goku = WarriorBuilder("Saiyan", "Goku") \
+        .add_technique(Kamehameha()) \
+        .add_transformation("") \
+        .add_item("") \
+        .build()
+    observer = WarriorObserver()
+    goku.attach(observer)
+    manager.add_warrior(goku)
+    return goku
 
 
 def start_fight(warrior, opponent):
@@ -105,6 +124,7 @@ def list_warriors(warriors):
     print("List of Warriors")
     print("=" * 40)
     for i, warrior in enumerate(warriors):
+
         print(f"{i}. \n")
         warrior_display(warrior)
 
@@ -123,14 +143,15 @@ def warrior_display(warrior):
 
 def main():
     warriors = []
-
+    opponent = create_opponent()
+    goku = create_goku()
+    warriors.append(goku)
     while True:
         print_menu()
         choice = input("Enter your choice: ")
 
         if choice == '1':
-            warrior = create_warrior()
-            warriors.append(warrior)
+            create_warrior()
             input("Press Enter to continue...")
         elif choice == '2':
             if not warriors:
@@ -145,7 +166,7 @@ def main():
                 print("No warriors created. Please create one and try again.")
                 input("Press Enter to continue...")
                 continue
-            opponent = create_opponent()
+
             warrior = choose_warrior(warriors)
             start_fight(warrior, opponent)
             input("Press Enter to continue...")
@@ -153,7 +174,7 @@ def main():
             print("Starting a tournament...")
             input("Press Enter to continue...")
         elif choice == '5':
-            list_warriors(warriors)
+            list_warriors(manager.warriors)
             input("Press Enter to continue...")
         elif choice == '6':
             print("Exiting the game...")

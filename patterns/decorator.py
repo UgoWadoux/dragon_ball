@@ -15,7 +15,13 @@ class SuperSaiyanDecorator(WarriorDecorator):
         self.add_transformation("Super Saiyan")
 
 
+        self.add_item("Item")
 class SenzuBeanDecorator(WarriorDecorator):
     def __init__(self, warrior):
         super().__init__(warrior)
         self.add_item("Senzu Bean")
+
+class SushiDecorator(WarriorDecorator):
+    def __init__(self, warrior):
+        super().__init__(warrior)
+        self.add_item("Sushi")
