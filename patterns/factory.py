@@ -1,13 +1,13 @@
-from models.warrior import Warrior
+from models.warrior import Warrior, Saiyan, Namekian, Android
 
 
 class WarriorFactory:
     def create_warrior(self, warrior_type, name):
         if warrior_type == 'Saiyan':
-            return Warrior(name)
+            return Saiyan(name)
         elif warrior_type == 'Namekian':
-            return Warrior(name)
+            return Namekian(name)
         elif warrior_type == 'Android':
-            return Warrior(name)
+            return Android(name)
         else:
             raise ValueError("Unknown warrior type")

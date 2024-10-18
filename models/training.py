@@ -21,7 +21,7 @@ class Training:
     def train(self):
         observer = WarriorObserver()
         self.attach_observer(observer)
-        print(f"{self.warrior.name} is training")
+        self.notify_observers(f"{self.warrior.name} is training")
         self.warrior.increase_strength(5)
         self.warrior.gain_experience(50)
         SushiDecorator(self.warrior)

@@ -1,5 +1,5 @@
 from patterns.state import NormalState, Dead
-from models.technique import Kick, Punch
+from models.technique import Kick, Punch, Regeneration
 import random
 
 
@@ -91,7 +91,7 @@ class Warrior:
         if self.hp >= self.max_hp:
             self.hp = self.max_hp
             self.change_state(NormalState())
-            self.notify(f"{self.name} is now in Normal state")
+            self.notify(f"{self.name} is full life")
 
     def increase_max_hp(self, amount):
         self.max_hp += amount
@@ -103,3 +103,19 @@ class Warrior:
         else:
             self.items[item.name] = quantity
         print(f"{self.name} adds {quantity} {item.name}(s) to inventory.")
+
+
+class Saiyan(Warrior):
+    def __init__(self, name):
+        super().__init__(name)
+        self.transformations.append("Super Saiyan")
+
+class Namekian(Warrior):
+    def __init__(self, name):
+        super().__init__(name)
+        self.techniques = [Regeneration(), Punch(), Kick()]
+
+class Android(Warrior):
+    def __init__(self, name):
+        super().__init__(name)
+        self.energy = float('inf')

@@ -88,11 +88,10 @@ def create_warrior():
     name = input("Enter the first warrior's name: ")
     warrior_type = choose_warrior_type()
     technique = choose_technique()
-    transformation = input("Enter the first warrior's transformation: ")
+    # transformation = input("Enter the first warrior's transformation: ")
 
     warrior = WarriorBuilder(warrior_type, name) \
         .add_technique(technique) \
-        .add_transformation(transformation) \
         .build()
     choose_item(warrior)
     observer1 = WarriorObserver()
@@ -195,7 +194,6 @@ def main():
 
             warrior = choose_warrior(warriors)
             start_fight(warrior, opponent)
-            input("Press Enter to continue...")
         elif choice == '4':
             print("Starting a tournament...")
             input("Press Enter to continue...")

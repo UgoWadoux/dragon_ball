@@ -24,6 +24,7 @@ class Fight:
         for observer in self.observers:
             observer.update(event)
 
+
     def attack(self, attacker, defender):
         # Logique d'attaque
         print(f"{attacker.name} attacks {defender.name}")
@@ -67,5 +68,7 @@ class Fight:
                 return
             self.attach_observer(observer)
             self.attack(self.warrior1, self.warrior2)
+            if self.warrior1.state.is_instance(Dead) or self.warrior2.state.is_instance(Dead):
+                return
             self.pnj_attack(self.warrior2, self.warrior1)
             self.detach_observer(observer)

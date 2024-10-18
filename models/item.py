@@ -1,4 +1,6 @@
-class Item:
+from abc import ABC, abstractmethod
+
+class Item(ABC):
     def __init__(self, name, description, effect):
         self.name = name
         self.description = description

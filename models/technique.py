@@ -4,7 +4,8 @@ class Technique:
         self.damage = damage
         self.animation = animation
 
-    def use(self, warrior, opponent):
+    def \
+        use(self, warrior, opponent):
         print(f"{warrior.name} uses {self.name}")
         opponent.take_damages(self.damage)
 
@@ -119,3 +120,7 @@ class SpecialBeamCanon(Technique):
             |\\%%%%%%%%%%0
            / \\
           """])
+
+class Regeneration(Technique):
+    def __init__(self):
+        super().__init__("Regeneration", 0, [''])
