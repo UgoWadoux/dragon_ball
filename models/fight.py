@@ -1,3 +1,5 @@
+from math import trunc
+
 from patterns.state import NormalState
 from patterns.observer import WarriorObserver
 from models.attaquer import Attacker
@@ -22,22 +24,6 @@ class Fight:
         for observer in self.observers:
             observer.update(event)
 
-    def animate_attack(self):
-        frames = [
-            "|",
-            "/",
-            "-",
-            "\\",
-            "|",
-            "/",
-            "-",
-            "\\"
-        ]
-        for frame in frames:
-            print(f"\rAttacking {frame}", end="", flush=True)
-            time.sleep(0.1)
-        print()
-
     def attack(self, attacker, defender):
         # Logique d'attaque
         print(f"{attacker.name} attacks {defender.name}")
@@ -59,7 +45,7 @@ class Fight:
         frames = technique.animation
         for frame in frames:
             print(f"\r{frame}\r", end="")
-            time.sleep(0.5)
+            time.sleep(0.1)
         print()
 
     def use_special_technique(self, warrior, technique):
@@ -76,7 +62,9 @@ class Fight:
     def start_fight(self):
         # Exemple de séquence de combat
         observer = WarriorObserver()
-        while not (self.warrior2.state.is_instance(Dead) or self.warrior1.state.is_instance(Dead)):
+        while True:
+            if self.warrior1.state.is_instance(Dead) or self.warrior2.state.is_instance(Dead):
+                return
             self.attach_observer(observer)
             self.attack(self.warrior1, self.warrior2)
             self.pnj_attack(self.warrior2, self.warrior1)

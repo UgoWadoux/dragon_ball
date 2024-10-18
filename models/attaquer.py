@@ -8,16 +8,11 @@ class Attacker:
         return [technique.name for technique in self.techniques]
 
     def choose_technique(self):
-        technique_names = self.get_techniques()
-        print(f"Available techniques: {', '.join(technique_names)}")
 
+        index=0
+        for technique in self.techniques:
+            print(f"{index}. {technique.name}")
+            index+=1
         while True:
-
             technique_choice = input("Choose a technique to use: ")
-            form = Form()
-            return form.display(title="Choose technique", choices=self.get_techniques(), functions=[lambda: technique for technique in self.techniques])
-            # for technique in self.techniques:
-            #     if technique_choice == technique.name:
-            #         return technique
-            # else:
-            #     print("Invalid choice. Please choose a valid technique.")
+            return self.techniques[int(technique_choice)]
